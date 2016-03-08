@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	    <title>SOULVEST / Automated Impact Investing</title>
+	    
+	    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.js"></script>
+		
+	    <!-- Typekit --> 
+		<script src="https://use.typekit.net/hqp3ssk.js"></script>
+		<script>try{Typekit.load({ async: true });}catch(e){}</script>
+	    
+	    <!-- Bootstrap -->
+		<link href="css/bootstrap.css" rel="stylesheet">
+		<link href="css/animate.css" rel="stylesheet">
+	    <link href="css/global.css" rel="stylesheet">
+        
+        <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+		<link rel="icon" href="images/favicon.ico" type="image/x-icon">
+		<link type="text/css" rel="stylesheet" href="css/home.css" />
+		<link type="text/css" rel="stylesheet" href="css/inside.css" />
+
+        <script type="text/javascript">
+			
+			function checkPassword(){
+				var password = $('input[name=sitepassword]').val();
+				if(password == "soul"){
+					window.location = "home.html";
+				} else {
+					$('.error').html("The password you entered is incorrect.");
+				}
+			}
+        </script>
+	</head>
+	<body>
+		<div id="section1" style="height:100%;">
+			<div class="container animated fadeInDown">
+				<div class="jumbotron col-lg-4 col-lg-offset-4 col-sm-12 text-center">
+					<p class="text-center">
+						<img src="images/logo-1.png" />
+					</p>
+					<br/>
+					<input type="password" name="sitepassword" class="form-control text-center" style="letter-spacing:.05em;" placeholder="ENTER PASSWORD" />
+					<br>
+					<button type="button" class="btn btn-primary btn-lg buttonLg" onClick="checkPassword()" onKeyDown="checkPassword()" role="button">LOG IN</button>
+				</div>
+			</div>
+		</div>
+        <div class="clearfix"></div>
+        
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+    	<div class="footer">
+            <div class="container">
+            	<p id="footerFont">COPYRIGHT © 2015 SOULVEST INC.</p>
+            </div>
+        </div> 
+	</body>
+</html>

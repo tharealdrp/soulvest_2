@@ -1,0 +1,121 @@
+@charset "UTF-8";
+/* CSS Document */
+
+/* MENU */
+
+.insidebody {
+	padding-top: 130px;
+	color:rgba(255,255,255,1.00);
+	height:100%;}
+
+.insidebody p a{
+	color:#fff;
+	cursor:pointer;
+	text-decoration:underline;	
+}
+
+#signupBG{
+	background-color:#263249;
+}
+
+#insidebackground{
+	background:url(../images/solar.jpg) no-repeat center center fixed;
+	-webkit-background-size: cover;
+  -moz-background-size: cover !important;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+
+#insidebackground2{
+	background:url(../images/jar.jpg) no-repeat center center fixed;
+	-webkit-background-size: cover;
+  -moz-background-size: cover !important;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#insidebackground3{
+	background:url(../images/sitting.jpg) no-repeat center center fixed;
+	-webkit-background-size: cover;
+  -moz-background-size: cover !important;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+
+.progress {
+	height: 10px;
+	border-radius: 20px;
+}
+.progress-bar {
+	background-color: #f86f4e;
+}
+
+.progress-number{
+	font-size:18px;
+	color:#f86f4e !important;	
+}
+
+.level{
+	display:none;
+	background-color: #fff;
+	border-radius:8px;
+	padding:15px 25px 25px 25px;
+	border:thin #263249 solid;
+	-webkit-transition: all 500ms;
+	-moz-transition: all 500ms;
+	-ms-transition: all 500ms;
+	-o-transition: all 500ms;
+	transition: all 500ms;
+}
+.level-section {
+	display:none;
+}
+
+.level h1, .level h2, .level h3, .level p, .level p a, .level label{
+	color: #263249 !important;
+}
+
+.form-control {
+    background-color: #fff;
+    background-image: none;
+	color:#263249 !important;
+    border: thin solid #263249 !important;
+    border-radius: 20px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    color: #333;
+    display: block;
+    font-size: 16px;
+    height: 40px;
+	margin-bottom:10px;
+    padding: 6px 18px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    width: 100%;
+	}
+
+select.form-control{
+	background: url(../images/arrow-01.png) no-repeat right;
+	background-color:#fff !important;
+	appearance:none;
+    -moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari and Chrome */
+}
+
+.form-control-inverted {
+	color: #fff !important;
+	background-color: #263249;
+}
+.form-control-inverted:hover {
+	color: #fff;
+	cursor: pointer;
+}
+.form-control-inverted .glyphicon {
+	line-height: 22px;
+}
+
+.faqBorder{
+	border-left:10px solid rgba(255,255,255,0.13);
+	padding-left:25px;
+	margin-bottom:40px;	
+}
