@@ -5,7 +5,6 @@ import flask
 from flask import Flask, jsonify, abort, make_response
 from flask.ext.restful import Api, Resource, reqparse, fields, marshal
 from google.appengine.ext import ndb
-from functools import wraps # decorator support
 
 import auth
 import model.user
