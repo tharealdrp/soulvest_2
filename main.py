@@ -6,7 +6,7 @@ from flask import Flask, jsonify, abort, make_response
 from flask.ext.restful import Api, Resource, reqparse, fields, marshal
 from google.appengine.ext import ndb
 
-import auth
+#import auth
 import model.user
 
 import logging
