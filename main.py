@@ -27,10 +27,10 @@ def welcome():
 ##########################################
 # TODO Use JWT!!!
 def login_required(args):
-  if not 'X-Authorization' in args:
+  if not 'Authorization' in args:
     abort(401)
   user = None
-  data = args['X-Authorization'].encode('ascii','ignore')
+  data = args['Authorization'].encode('ascii','ignore')
   token = str.replace(str(data), 'Bearer ','')
   try:
     user = model.User.query(model.User.token == token).get()
