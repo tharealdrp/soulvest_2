@@ -30,7 +30,14 @@
     <script type="text/javascript" src="fancybox/fancybox.js"></script>
     <link type="text/css" rel="stylesheet" href="fancybox/fancybox.css" media="screen" />
     <script type="text/javascript">
+
       $(document).ready(function() {
+
+        token = localStorage.getItem("token");
+        console.log("******")
+        console.log(token)
+
+        getAccountInfo();
 
         $(".fancybox").fancybox({
           'transitionIn'	:	'fade',
@@ -93,40 +100,43 @@
     </nav>
 
     <div class="container animated fadeIn">
-      <h1><img src="images/portfolio.png" width="71" height="58" alt=""/>&nbsp; PORTFOLIOS</h1><br/>
+      <h1><img src="images/portfolio.png" width="71" height="58" alt=""/>&nbsp; MY ACCOUNT</h1><br/>
       <div class="col-lg-8">
 
-        <div class="faqBorder">
-          <h3>Socially responsible investing is no longer something people do just to feel good. It’s now where the money will be made.</h3>
+        <button id="plaidLinkButton" class="btn btn-default buttonLg">CONNECT AN ACCOUNT</button>
 
-          <p>Expect a return on your investment (ROI) while knowing you are affecting change in a meaningful way. Use <strong>SOULVEST</strong> as a primary investment strategy or simply a way to create positive social impact.</p>
+        <script src="https://cdn.plaid.com/link/stable/link-initialize.js"></script>
+        <script>
+          var sandboxHandler = Plaid.create({
+            env: 'tartan',
+            clientName: 'Client Name',
+            key: 'test_key',
+            product: 'auth',
+            onSuccess: function(public_token, metadata) {
+              console.log(public_token, metadata);
+              localStorage.setItem("plaid_public_token", public_token);
+              localStorage.setItem("plaid_metadata", JSON.stringify(metadata));
+              //showSelectAccountPanel();
+              linkAccountWithSoulvest(public_token, JSON.stringify(metadata));
+              window.location.href = '/account.html';
+            },
+          });
+
+          document.getElementById('plaidLinkButton').onclick = function() {
+            // Trigger the "Institution Select" view
+            sandboxHandler.open();
+          };
+        </script>
+        <p style="margin-left:15px;"><br><strong>NOTE:</strong> For this you will need your credentials for your online banking account.<br></p>
+        <br>
+        <div class="faqBorder">
+          <h4>YOUR ACCOUNT INFO</h4>
+          <div id="account-info"></div>
         </div>
-
-        <h2>HOW WE INVEST</h2>
-        <p>We go beyond the basic <a>ESG</a> (environment, social, and governance) screens used in overly diversified mutual funds and create focused portfolios that are specifically designed and managed by our in-house team of investment experts. Companies in our portfolios are required to be <strong>“best in class”</strong>, creating the most positive impact within their sectors.</p><br/>
-        <h4>WHAT ARE YOU MOST <strong>PASSIONATE</strong> ABOUT?</h4>
-        <p>Choose from <strong>1 or BOTH</strong> of the portfolio segments below and we will create a personalized impact portfolio focused on your goals.</p>
-        <br/>
-
-        <div class="faqBorder">
-          <h4><strong>ENVIRONMENT</strong></h4>  <p>companies directly involved in positively effecting change with a focus on the following: climate change, hazardous waste, waste management, energy, sustainability (recycling, agricultural practices, water management, etc.)</p><img class="img-responsive" src="images/environ-Icon-In.png" width="834" height="218" alt=""/></div>
-        <div class="faqBorder">
-          <h4><strong>SOCIAL</strong></h4> <p>companies directly involved in the positively effecting change with a focus on the following: diversity, human rights, consumer protection, animal welfare
-          </p><br/><img class="img-responsive" src="images/social-Icon-In.png" width="834" height="218" alt=""/></div>
       </div>
-
-
-      <div class="col-lg-3 col-lg-offset-1 animated fadeInRight">
-        <blockquote>
-          <h4>TRANSPARENCY</h4><p>We want you to know about the companies you are investing in, and provide detailed information on all companies we invest in, and reasoning behind their selection in our process.</p>
-        </blockquote>
-      </div>
-      <button type="button" class="btn btn-default buttonLg" onclick="loadDemo()" >PORTFOLIO EXAMPLES</button>
-    </div>
-
     <div class="footer">
       <div class="container">
-        <p id="footerFont">COPYRIGHT © 2015 SOULVEST INC.</p>
+        <p id="footerFont">COPYRIGHT © 2016 SOULVEST INC.</p>
       </div>
     </div>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->

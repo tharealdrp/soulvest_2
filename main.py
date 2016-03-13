@@ -1,10 +1,23 @@
 """`main` is the top level module for our Flask application."""
 from uuid import uuid4
 import hashlib
+import requests
 import flask
-from flask import Flask, jsonify, abort, make_response
+from functools import wraps
+from flask import Flask, jsonify, abort, make_response, redirect, request, url_for
 from flask.ext.restful import Api, Resource, reqparse, fields, marshal
 from google.appengine.ext import ndb
+
+import json
+
+# plaid
+from plaid import Client
+Client.config({
+    'url': 'https://tartan.plaid.com',
+    'suppress_http_errors': True,
+})
+
+client = Client(client_id='test_id', secret='test_secret')
 
 #import auth
 import model.user
@@ -18,14 +31,37 @@ SALT = 'development'
 app = Flask(__name__, static_url_path="")
 api = Api(app)
 
-@app.route('/')
-def welcome():
-  return app.send_static_file('index.html')
 
 ##########################################
 # API Guards
 ##########################################
-# TODO Use JWT!!!
+def get_user_by_authorization_token(args):
+  data = args['Authorization'].encode('ascii','ignore')
+  token = str.replace(str(data), 'Bearer ','')
+  try:
+    user = model.User.query(model.User.token == token).get()
+    return user
+  except:
+    abort(422, 'Permission denied, please log in.')
+
+def logged_in_redirect(f):
+  @wraps(f)
+  def decorated_function(*args, **kwargs):
+    if not 'Authorization' in args:
+      return f(*args, **kwargs)
+    user = None
+    data = args['Authorization'].encode('ascii','ignore')
+    token = str.replace(str(data), 'Bearer ','')
+    try:
+      user = model.User.query(model.User.token == token).get()
+      if not user:
+        return f(*args, **kwargs)
+    except:
+      return f(*args, **kwargs)
+    return redirect(url_for('static', filename='/account.html'))
+  return decorated_function
+
+# TODO Use JWT?
 def login_required(args):
   if not 'Authorization' in args:
     abort(401)
@@ -39,6 +75,10 @@ def login_required(args):
   except:
     abort(401)
 
+
+@app.route('/')
+def welcome():
+  return app.send_static_file('index.html')
 
 ##########################################
 # Sign in
@@ -96,7 +136,7 @@ class SignInAPI(Resource):
     token = signin_user(user)
     if not token:
       abort(422, 'Something went wrong')
-    return {'result' : 'success', 'token' : token}
+    return {'result' : 'success', 'token' : token, 'email' : user.email}
 
 
 api.add_resource(SignInAPI, '/api/v1/signin/', endpoint='signin')
@@ -113,7 +153,7 @@ def valid_password(password_str):
   if not isinstance(password_str, basestring):
     raise ValueError('alphanumeric only please'.format(password_str))
   if len(password_str) < 8:
-    raise ValueError('{} must be at least 8 characters long'.format(password_str))
+    raise ValueError('Password must be at least 8 characters long')
   return password_str
 
 
@@ -177,13 +217,15 @@ class SignOutAPI(Resource):
 
   def __init__(self):
     self.reqparse = reqparse.RequestParser()
-    self.reqparse.add_argument('X-Authorization', location='headers')
+    self.reqparse.add_argument('Authorization', location='headers')
     super(SignOutAPI, self).__init__()
 
   # log this user out! ie. null user token
   def get(self):
     args = self.reqparse.parse_args()
     login_required(args)
+    user = get_user_by_authorization_token(args)
+    signout_user(user)
     return {'result' : 'success'}
 
 
@@ -191,23 +233,71 @@ api.add_resource(SignOutAPI, '/api/v1/signout/', endpoint='signout')
 
 
 ##########################################
-# Connect an account - Plaid
+# Account Info - Plaid
 ##########################################
-class ConnectAccountAPI(Resource):
+def set_plaid_info_for_user(user, plaid_token, plaid_meta):
+  user.plaid_token = plaid_token
+  user.plaid_meta = plaid_meta
+  user.put()
+
+class PlaidAccountInfoAPI(Resource):
   """ use plaid to connect a user's account. Plaid will return a token
   for the account they have selected. We use that token to access
   their account information via the Plaid connect api """
   def __init__(self):
-    super(ConnectAccountAPI, self).__init__()
+    self.reqparse = reqparse.RequestParser()
+    self.reqparse.add_argument('Authorization', location='headers')
+    self.reqparse.add_argument(
+      'plaid_token', type = str, required = False)
+    self.reqparse.add_argument(
+      'plaid_meta', type = str, required = False)
+    super(PlaidAccountInfoAPI, self).__init__()
 
   def get(self):
+    args = self.reqparse.parse_args()
+    user = get_user_by_authorization_token(args)
+
+    url = 'https://tartan.plaid.com/auth/get'
+    r = requests.post(url, data={'client_id': 'test_id', 'secret': 'test_secret', 'access_token': 'test', 'type': 'bofa'})
+    logging.info(r.status_code)
+    logging.info(r.reason)
+    logging.info(r.text)
+
+    #client = Client(client_id='test_id', secret='test_secret', access_token='test')
+    #client.credentials.account_type='bofa'
+    #accounts = json.loads(client.auth_get().content)
+    #logging.info(accounts)
+
+    return {
+      'result' : 'success',
+      'plaid_meta' : user.plaid_meta,
+      'plaid_token' : user.plaid_token,
+      'plaid_account_info' : r.text
+    }
+    """
+    response = client.connect('bofa', {
+        'username': 'plaid_test',
+        'password': 'plaid_good'
+    })
+
+    if response.ok:
+      content = json.loads(response.content)
+      print content
+      return content
+
     return {'result' : 'success'}
+    """
 
   def post(self):
-    return {'result' : 'success'}
+    args = self.reqparse.parse_args()
+    user = get_user_by_authorization_token(args)
+    logging.info(args)
+    logging.info(args['plaid_token'])
+    set_plaid_info_for_user(user, args['plaid_token'], args['plaid_meta'])
+    return {'result' : 'success', 'plaid_meta' : user.plaid_meta, 'plaid_token' : user.plaid_token}
 
 
-api.add_resource(ConnectAccountAPI, '/api/v1/connect_account/', endpoint='connect_account')
+api.add_resource(PlaidAccountInfoAPI, '/api/v1/account_info/', endpoint='account_info')
 
 
 ##########################################

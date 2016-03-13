@@ -18,3 +18,5 @@ class User(model.Base):
   verified = ndb.BooleanProperty(default=False)
   token = ndb.StringProperty(default='')
   password_hash = ndb.StringProperty(default='')
+  plaid_token = ndb.StringProperty(default='')
+  plaid_meta = ndb.StringProperty(default='')
