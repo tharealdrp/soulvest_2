@@ -156,13 +156,6 @@
             <div class="form-group">
               <br><p class="text-center">By clicking sign up, you agree to the Terms of Use and Privacy Policy, and acknowledge that you have read and understood our disclosure brochure, which can be accessed here: <a style="color:black;">FormADV2</a>.</p>
             </div>
-            <div class="form-group pull-right">
-              <div class="col-sm-7">
-                <div class="col-sm-0">
-                  <button class="btn btn-default buttonInside" type="button" onclick="showSelectInstitutionPanel();">SKIP</button>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -214,7 +207,7 @@
                     localStorage.setItem("plaid_public_token", public_token);
                     localStorage.setItem("plaid_metadata", JSON.stringify(metadata));
                     linkAccountWithSoulvest(public_token, JSON.stringify(metadata));
-                    window.location.href = '/account.html';
+                    window.location.href = '/docusign.html';
                   },
                 });
 
@@ -262,6 +255,13 @@
             <p class="text-center">
               <button class="btn btn-default buttonInside" onclick="">STEP 2: CHOOSE HOW TO INVEST &nbsp;<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></button>
             </p>
+            <div class="form-group pull-right" id="skip-button">
+              <div class="col-sm-7">
+                <div class="col-sm-0">
+                  <button class="btn btn-default buttonInside" type="button" onclick="showSelectInstitutionPanel();">SKIP</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

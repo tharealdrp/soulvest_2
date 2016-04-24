@@ -1,9 +1,3 @@
-// are we already signed in?
-token = localStorage.getItem("token");
-if (token !== null) {
-    //window.location.href = '/portfolios.html'; //one level up
-}
-
 // do this when the document is loaded
 $(document).ready(function(){
     showSignUpPanel();
@@ -18,11 +12,6 @@ $(document).ready(function(){
 
     jQuery.extend(jQuery.validator.messages, {
         equalTo:"Password fields do not match.",
-    });
-
-    $("select[name=bank]").change(function(){
-        var bank = $(this).val();
-        $(".bank").html(bank);
     });
 });
 
@@ -96,9 +85,6 @@ function showSelectAccountPanel() {
 
 // do this when we click the sign up button
 function onSignUpClick() {
-    // temporary
-    //showSelectInstitutionPanel();
-    //return;
 
     if (!$("#sign-up-form").valid()) {
         return;

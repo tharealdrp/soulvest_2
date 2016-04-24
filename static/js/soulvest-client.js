@@ -125,7 +125,6 @@ function getAccountInfo() {
             $("#plaidLinkButton").html(str);
         }
     });
-
 }
 
 function linkAccountWithSoulvest(plaid_token, plaid_meta) {
@@ -145,6 +144,23 @@ function linkAccountWithSoulvest(plaid_token, plaid_meta) {
             console.log(data)
             console.log('linked account success');
             getAccountInfo();
+        }
+    });
+}
+
+function getDocusignIframeContent() {
+    // get account info
+    $.ajax({
+        url:'api/v1/docusign_workflow/',
+        type:'GET',
+        headers: {
+            'Authorization': token
+        },
+        success: function(data){
+            console.log("-----");
+            console.log(data);
+            var str = '<iframe style="width:1000px; height:800px;" id="dswpf" src="' + data.docusign_envelop + '"/>"';
+            $("#docusign-content").html(str);
         }
     });
 }

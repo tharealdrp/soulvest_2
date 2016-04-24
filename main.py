@@ -7,7 +7,7 @@ from functools import wraps
 from flask import Flask, jsonify, abort, make_response, redirect, request, url_for
 from flask.ext.restful import Api, Resource, reqparse, fields, marshal
 from google.appengine.ext import ndb
-
+import docusign
 import json
 
 # plaid
@@ -299,6 +299,28 @@ class PlaidAccountInfoAPI(Resource):
 
 api.add_resource(PlaidAccountInfoAPI, '/api/v1/account_info/', endpoint='account_info')
 
+
+##########################################
+# Docusign
+##########################################
+class DocusignAPI(Resource):
+
+  def __init__(self):
+    self.reqparse = reqparse.RequestParser()
+    self.reqparse.add_argument('Authorization', location='headers')
+    super(DocusignAPI, self).__init__()
+
+  # get docusign envelop for iframe
+  def get(self):
+    args = self.reqparse.parse_args()
+    login_required(args)
+    user = get_user_by_authorization_token(args)
+    print user.username
+    view_url = docusign.get_embedded_docusign_send_view(user.email, user.email, 1)
+    return {'result' : 'success', 'docusign_envelop' : view_url}
+
+
+api.add_resource(DocusignAPI, '/api/v1/docusign_workflow/', endpoint='docusign_workflow')
 
 ##########################################
 # Select an amount - Plaid / Our db

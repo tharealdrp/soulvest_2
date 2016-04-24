@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SOULVEST / Automated Impact Investing</title>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+
+    <!-- Toastr -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
+
+    <!-- Typekit -->
+    <script src="https://use.typekit.net/hqp3ssk.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/global.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <link type="text/css" rel="stylesheet" href="css/inside.css" />
+
+    <!-- JQUERY FANCYBOX -->
+    <script type="text/javascript" src="fancybox/fancybox.js"></script>
+    <link type="text/css" rel="stylesheet" href="fancybox/fancybox.css" media="screen" />
+    <script type="text/javascript">
+
+      $(document).ready(function() {
+
+        token = localStorage.getItem("token");
+        console.log("******")
+        console.log(token)
+
+        getDocusignIframeContent();
+
+        $(".fancybox").fancybox({
+          'transitionIn'	:	'fade',
+          'transitionOut'	:	'fade',
+          'speedIn'		:	1000,
+          'speedOut'		:	500,
+          'overlayShow'	:	true,
+          'helpers'		: {
+            overlay: {
+              locked: false
+            }
+          }
+        });
+
+      });
+    </script>
+
+    <script src="js/soulvest-client.js"></script>
+
+    <style type="text/css">
+      body { background-color: #fefdfc;}
+      p.description { width: 500px; border: 1px solid #cfc; padding: 20px; }
+      .form_cont { border: 1px solid #cfc; padding: 20px; width: 1024px; background-color: #cd9;}
+      .top_cont { width: 1124px; margin-left: auto; margin-right: auto; }
+    </style>
+
+  </head>
+
+  <body id="insidebackground2" class="insidebody" onload="setup();">
+    <nav class="navbar navbar-default" id="soulnav">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand animated bounceInLeft" href="home.html">
+            <img src="images/logo-1.png" class="img-responsive" width="166" height="42" alt=""/>
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse animated fadeIn" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li id="welcome-menu-button"><a href="account.html">Welcome</a></li>
+            <li><a href="portfolios.html">PORTFOLIOS</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="about.html">ABOUT</a></li>
+            <li id="sign-up-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="window.location='signup.html'">SIGN UP</button></li>
+            <li id="sign-out-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="onSignOutClick();">SIGN OUT</button></li>
+            <li><button  type="button" class="btn btn-primary btn-lg button1 buttonNavMargin" onclick="loadDemo()">TOUR THE APP</button>&nbsp;</li>
+            <li><a href="/" class="homeIcon"><img src="images/home.png"  width="24px"/></a></li>
+          </ul>
+        </div>
+
+        <div class="hidden">
+          <a href="images/dash1.jpg" class="fancybox fancybox-demo" rel="demo"></a>
+          <a href="images/dash2.jpg" class="fancybox fancybox-demo" rel="demo"></a>
+          <script type="text/javascript">
+            function loadDemo(){
+              $(".fancybox-demo").eq(0).click();
+            }
+          </script>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container animated fadeIn">
+      <h1><img src="images/portfolio.png" width="71" height="58" alt=""/>&nbsp; DOCUSIGN INTEGRATION</h1><br/>
+      <div class="form_cont" id="docusign-content">
+        <!--<iframe style="width:1000px; height:800px;" id="dswpf" src="https://demo.docusign.net/Signing/startinsession.aspx?t=0cda9e73-f231-48c9-958d-b640ff817037"/>-->
+        <!--<iframe style="width:1000px; height:800px;" id="dswpf" src="https://demo.docusign.net/MEMBER/PowerFormSigning.aspx?PowerFormId=
+         8968380d-16da-447c-97d7-fa989ed11082&Signer%201_UserName=James%20Smith"/>-->
+      </div>
+    </div>
+  </body>
+</html>
