@@ -4,7 +4,7 @@ import hashlib
 import requests
 import flask
 from functools import wraps
-from flask import Flask, jsonify, abort, make_response, redirect, request, url_for
+from flask import Flask, jsonify, abort, make_response, session, redirect, request, url_for, escape
 from flask.ext.restful import Api, Resource, reqparse, fields, marshal
 from google.appengine.ext import ndb
 import docusign
@@ -30,6 +30,7 @@ SALT = 'development'
 
 app = Flask(__name__, static_url_path="")
 api = Api(app)
+app.secret_key = 'development'
 
 
 ##########################################
@@ -76,9 +77,9 @@ def login_required(args):
     abort(401)
 
 
-@app.route('/')
-def welcome():
-  return app.send_static_file('index.html')
+#@app.route('/')
+#def welcome():
+#  return app.send_static_file('index.html')
 
 ##########################################
 # Sign in
@@ -393,7 +394,34 @@ We're testing GAE mail.
     return {'result' : 'success'}
 
 
-api.add_resource(OneTimeDepositAPI, '/api/v1/one_time_deposit/', endpoint='one_time_deposit')
+api.add_resource(OneTimeDepositAPI, '/api/v1/mail_test/', endpoint='mail_test')
+
+########################################
+# Session testing
+#######################################
+@app.route('/')
+def index():
+    if 'username' in session:
+        return 'Logged in as %s' % escape(session['username'])
+    return 'You are not logged in'
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        session['username'] = request.form['username']
+        return redirect(url_for('index'))
+    return '''
+        <form action="" method="post">
+            <p><input type=text name=username>
+            <p><input type=submit value=Login>
+        </form>
+    '''
+
+@app.route('/logout')
+def logout():
+    # remove the username from the session if it's there
+    session.pop('username', None)
+    return redirect(url_for('index'))
 
 
 
