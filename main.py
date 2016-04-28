@@ -369,6 +369,34 @@ class OneTimeDepositAPI(Resource):
 api.add_resource(OneTimeDepositAPI, '/api/v1/one_time_deposit/', endpoint='one_time_deposit')
 
 
+##########################################
+# Mail Test
+##########################################
+class MailTestAPI(Resource):
+  def __init__(self):
+    self.reqparse = reqparse.RequestParser()
+
+    super(OneTimeDepositAPI, self).__init__()
+
+  def get(self):
+    mail.send_mail(sender="soulvest.com Support <support@soulvest.com>",
+              to="Jeff Luzenberger <jefflutzenberger@gmail.com>",
+              subject="Testing GAE mail",
+              body="""
+Dear Jeff:
+
+We're testing GAE mail.
+""")
+    return {'result' : 'success'}
+
+  def post(self):
+    return {'result' : 'success'}
+
+
+api.add_resource(OneTimeDepositAPI, '/api/v1/one_time_deposit/', endpoint='one_time_deposit')
+
+
+
 @app.errorhandler(404)
 def page_not_found(e):
   """Return a custom 404 error."""
