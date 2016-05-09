@@ -30,6 +30,7 @@ SALT = 'development'
 
 app = Flask(__name__, static_url_path="")
 api = Api(app)
+app.config.from_object('config')
 app.secret_key = 'development'
 
 

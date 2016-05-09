@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+
+    <script src = "js/jquery.validate.min.js"></script>
+
+    <!-- Toastr -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
+
+    <!-- Typekit -->
+    <script src="https://use.typekit.net/hqp3ssk.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/global.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <link type="text/css" rel="stylesheet" href="css/home.css" />
+
+
+    <!-- JQUERY FANCYBOX -->
+    <script type="text/javascript" src="fancybox/fancybox.js"></script>
+    <link type="text/css" rel="stylesheet" href="fancybox/fancybox.css" media="screen" />
+    <script type="text/javascript">
+      $(document).ready(function() {
+
+        $(".fancybox").fancybox({
+          'transitionIn'	:	'fade',
+          'transitionOut'	:	'fade',
+          'speedIn'		:	1000,
+          'speedOut'		:	500,
+          'overlayShow'	:	true,
+          'helpers'		: {
+            overlay: {
+              locked: false
+            }
+          }
+        });
+
+      });
+    </script>
+
+    <script src="js/soulvest-client.js"></script>
+
+  </head>
+  <body>
+  {% block body %}
+      <h1>This heading is defined in the parent.</h1>
+  {% endblock %}
+  </body>
+</html>

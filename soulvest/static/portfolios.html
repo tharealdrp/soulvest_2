@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SOULVEST / Automated Impact Investing</title>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+
+    <!-- Toastr -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
+
+    <!-- Typekit -->
+    <script src="https://use.typekit.net/hqp3ssk.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/global.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <link type="text/css" rel="stylesheet" href="css/inside.css" />
+
+    <!-- JQUERY FANCYBOX -->
+    <script type="text/javascript" src="fancybox/fancybox.js"></script>
+    <link type="text/css" rel="stylesheet" href="fancybox/fancybox.css" media="screen" />
+    <script type="text/javascript">
+      $(document).ready(function() {
+
+        $(".fancybox").fancybox({
+          'transitionIn'	:	'fade',
+          'transitionOut'	:	'fade',
+          'speedIn'		:	1000,
+          'speedOut'		:	500,
+          'overlayShow'	:	true,
+          'helpers'		: {
+            overlay: {
+              locked: false
+            }
+          }
+        });
+
+      });
+    </script>
+
+    <script src="js/soulvest-client.js"></script>
+
+  </head>
+
+  <body id="insidebackground2" class="insidebody" onload="setup();">
+    <nav class="navbar navbar-default" id="soulnav">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand animated bounceInLeft" href="home.html">
+            <img src="images/logo-1.png" class="img-responsive" width="166" height="42" alt=""/>
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse animated fadeIn" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li id="welcome-menu-button"><a href="account.html">Welcome</a></li>
+            <li><a href="portfolios.html">PORTFOLIOS</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="about.html">ABOUT</a></li>
+            <li id="sign-up-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="window.location='signup.html'">SIGN UP</button></li>
+            <li id="sign-out-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="onSignOutClick();">SIGN OUT</button></li>
+            <li><button  type="button" class="btn btn-primary btn-lg button1 buttonNavMargin" onclick="loadDemo()">TOUR THE APP</button>&nbsp;</li>
+            <li><a href="/" class="homeIcon"><img src="images/home.png"  width="24px"/></a></li>
+          </ul>
+        </div>
+
+        <div class="hidden">
+          <a href="images/dash1.jpg" class="fancybox fancybox-demo" rel="demo"></a>
+          <a href="images/dash2.jpg" class="fancybox fancybox-demo" rel="demo"></a>
+          <script type="text/javascript">
+            function loadDemo(){
+              $(".fancybox-demo").eq(0).click();
+            }
+          </script>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container animated fadeIn">
+      <h1><img src="images/portfolio.png" width="71" height="58" alt=""/>&nbsp; PORTFOLIOS</h1><br/>
+      <div class="col-lg-8">
+
+        <div class="faqBorder">
+          <h3>Socially responsible investing is no longer something people do just to feel good. It’s now where the money will be made.</h3>
+
+          <p>Expect a return on your investment (ROI) while knowing you are affecting change in a meaningful way. Use <strong>SOULVEST</strong> as a primary investment strategy or simply a way to create positive social impact.</p>
+        </div>
+
+        <h2>HOW WE INVEST</h2>
+        <p>We go beyond the basic <a>ESG</a> (environment, social, and governance) screens used in overly diversified mutual funds and create focused portfolios that are specifically designed and managed by our in-house team of investment experts. Companies in our portfolios are required to be <strong>“best in class”</strong>, creating the most positive impact within their sectors.</p><br/>
+        <h4>WHAT ARE YOU MOST <strong>PASSIONATE</strong> ABOUT?</h4>
+        <p>Choose from <strong>1 or BOTH</strong> of the portfolio segments below and we will create a personalized impact portfolio focused on your goals.</p>
+        <br/>
+
+        <div class="faqBorder">
+          <h4><strong>ENVIRONMENT</strong></h4>  <p>companies directly involved in positively effecting change with a focus on the following: climate change, hazardous waste, waste management, energy, sustainability (recycling, agricultural practices, water management, etc.)</p><img class="img-responsive" src="images/environ-Icon-In.png" width="834" height="218" alt=""/></div>
+        <div class="faqBorder">
+          <h4><strong>SOCIAL</strong></h4> <p>companies directly involved in the positively effecting change with a focus on the following: diversity, human rights, consumer protection, animal welfare
+          </p><br/><img class="img-responsive" src="images/social-Icon-In.png" width="834" height="218" alt=""/></div>
+      </div>
+
+
+      <div class="col-lg-3 col-lg-offset-1 animated fadeInRight">
+        <blockquote>
+          <h4>TRANSPARENCY</h4><p>We want you to know about the companies you are investing in, and provide detailed information on all companies we invest in, and reasoning behind their selection in our process.</p>
+        </blockquote>
+      </div>
+      <button type="button" class="btn btn-default buttonLg" onclick="loadDemo()" >PORTFOLIO EXAMPLES</button>
+    </div>
+
+    <div class="footer">
+      <div class="container">
+        <p id="footerFont">COPYRIGHT © 2015 SOULVEST INC.</p>
+      </div>
+    </div>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+  </body>
+</html>
