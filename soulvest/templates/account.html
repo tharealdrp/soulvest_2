@@ -9,6 +9,10 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.js"></script>
 
+    <!-- Toastr -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
+
     <!-- Typekit -->
     <script src="https://use.typekit.net/hqp3ssk.js"></script>
     <script>try{Typekit.load({ async: true });}catch(e){}</script>
@@ -26,7 +30,14 @@
     <script type="text/javascript" src="fancybox/fancybox.js"></script>
     <link type="text/css" rel="stylesheet" href="fancybox/fancybox.css" media="screen" />
     <script type="text/javascript">
+
       $(document).ready(function() {
+
+        token = localStorage.getItem("token");
+        console.log("******")
+        console.log(token)
+
+        getAccountInfo();
 
         $(".fancybox").fancybox({
           'transitionIn'	:	'fade',
@@ -46,10 +57,9 @@
 
     <script src="js/soulvest-client.js"></script>
 
-
   </head>
 
-  <body id="insidebackground" class="insidebody">
+  <body id="insidebackground2" class="insidebody" onload="setup();">
     <nav class="navbar navbar-default" id="soulnav">
       <div class="container">
         <div class="navbar-header">
@@ -66,11 +76,12 @@
 
         <div class="collapse navbar-collapse animated fadeIn" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
+            <li id="welcome-menu-button"><a href="account.html">Welcome</a></li>
             <li><a href="portfolios.html">PORTFOLIOS</a></li>
             <li><a href="faq.html">FAQ</a></li>
             <li><a href="about.html">ABOUT</a></li>
             <li id="sign-up-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="window.location='signup.html'">SIGN UP</button></li>
-            <li id="sign-in-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="window.location='login.html'">SIGN IN</button></li>
+            <li id="sign-out-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="onSignOutClick();">SIGN OUT</button></li>
             <li><button  type="button" class="btn btn-primary btn-lg button1 buttonNavMargin" onclick="loadDemo()">TOUR THE APP</button>&nbsp;</li>
             <li><a href="/" class="homeIcon"><img src="images/home.png"  width="24px"/></a></li>
           </ul>
@@ -88,24 +99,44 @@
       </div>
     </nav>
 
-    <div class="container">
-      <h1><img src="images/about.png" width="53" height="58" alt=""/>&nbsp; ABOUT <strong>SOULVEST</strong></h1><br/>
-      <div class="col-lg-8 animated fadeIn">
-        <h3>HELPING YOU INVEST IN PASSIONATE IDEAS</h3>
-        <p>SoulVest is an online investment platform that provides the general public an opportunity to put their money to work in a meaningful way.  We go beyond the basic ESG screens used in overly diversified mutual funds and create focused portfolios that are specifically designed and managed by our in-house team of investment experts. Companies in our portfolios are required to be “best in class”, creating the most positive impact within areas such as climate change, diversity, human rights, and animal welfare, while also minimizing companies profiting from tobacco, weapons, or gambling.<br/><br/>
-          Our goal is empower people to invest for good. We believe that there is a shift in investment philosophy, and that investing in a socially responsible way is the wave of the future. We want to effect change by providing a vehicle that is accessible to everyone which pools money from the masses to create positive shifts in the free market economy.
-        </p><br/>
-      </div>
+    <div class="container animated fadeIn">
+      <h1><img src="images/portfolio.png" width="71" height="58" alt=""/>&nbsp; MY ACCOUNT</h1><br/>
+      <div class="col-lg-8">
 
-      <div class="col-lg-3 col-lg-offset-1  animated fadeInRight">
-        <h3><img src="images/contact.png" width="57" height="36" alt=""/> &nbsp; CONTACT US</h3><br/>
-        <button onclick="window.location.href='mailto:contact@soulvest.net'" type="button" class="btn btn-default buttonLg">EMAIL SOULVEST</button><br/>
-      </div>
-    </div>
+        <button id="plaidLinkButton" class="btn btn-default buttonLg">CONNECT AN ACCOUNT</button>
 
+        <script src="https://cdn.plaid.com/link/stable/link-initialize.js"></script>
+        <script>
+          var sandboxHandler = Plaid.create({
+            env: 'tartan',
+            clientName: 'Client Name',
+            key: 'test_key',
+            product: 'auth',
+            onSuccess: function(public_token, metadata) {
+              console.log(public_token, metadata);
+              localStorage.setItem("plaid_public_token", public_token);
+              localStorage.setItem("plaid_metadata", JSON.stringify(metadata));
+              //showSelectAccountPanel();
+              linkAccountWithSoulvest(public_token, JSON.stringify(metadata));
+              window.location.href = '/account.html';
+            },
+          });
+
+          document.getElementById('plaidLinkButton').onclick = function() {
+            // Trigger the "Institution Select" view
+            sandboxHandler.open();
+          };
+        </script>
+        <p style="margin-left:15px;"><br><strong>NOTE:</strong> For this you will need your credentials for your online banking account.<br></p>
+        <br>
+        <div class="faqBorder">
+          <h4>YOUR ACCOUNT INFO</h4>
+          <div id="account-info"></div>
+        </div>
+      </div>
     <div class="footer">
       <div class="container">
-        <p id="footerFont">COPYRIGHT © 2015 SOULVEST INC.</p>
+        <p id="footerFont">COPYRIGHT © 2016 SOULVEST INC.</p>
       </div>
     </div>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->

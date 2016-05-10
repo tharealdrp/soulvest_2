@@ -5,6 +5,8 @@ import os
 PRODUCTION = os.environ.get('SERVER_SOFTWARE', '').startswith('Google App Eng')
 DEBUG = DEVELOPMENT = not PRODUCTION
 
+SALT = 'development'
+
 try:
   # This part is surrounded in try/except because the config.py file is
   # also used in the run.py script which is used to compile/minify the client

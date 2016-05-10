@@ -9,6 +9,12 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.js"></script>
 
+    <script src = "js/jquery.validate.min.js"></script>
+
+    <!-- Toastr -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
+
     <!-- Typekit -->
     <script src="https://use.typekit.net/hqp3ssk.js"></script>
     <script>try{Typekit.load({ async: true });}catch(e){}</script>
@@ -20,7 +26,8 @@
 
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-    <link type="text/css" rel="stylesheet" href="css/inside.css" />
+    <link type="text/css" rel="stylesheet" href="css/home.css" />
+
 
     <!-- JQUERY FANCYBOX -->
     <script type="text/javascript" src="fancybox/fancybox.js"></script>
@@ -46,10 +53,8 @@
 
     <script src="js/soulvest-client.js"></script>
 
-
   </head>
-
-  <body id="insidebackground" class="insidebody">
+  <body onload="setup();">
     <nav class="navbar navbar-default" id="soulnav">
       <div class="container">
         <div class="navbar-header">
@@ -66,12 +71,11 @@
 
         <div class="collapse navbar-collapse animated fadeIn" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="portfolios.html">PORTFOLIOS</a></li>
+            <li id="welcome-menu-button"><a href="account.html">Welcome</a></li>
             <li><a href="faq.html">FAQ</a></li>
             <li><a href="about.html">ABOUT</a></li>
-            <li id="sign-up-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="window.location='signup.html'">SIGN UP</button></li>
-            <li id="sign-in-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="window.location='login.html'">SIGN IN</button></li>
-            <li><button  type="button" class="btn btn-primary btn-lg button1 buttonNavMargin" onclick="loadDemo()">TOUR THE APP</button>&nbsp;</li>
+            <li id="sign-up-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="window.location='login.html'">SIGN IN</button></li>
+            <li id="sign-out-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="onSignOutClick();">SIGN OUT</button></li>
             <li><a href="/" class="homeIcon"><img src="images/home.png"  width="24px"/></a></li>
           </ul>
         </div>
@@ -88,21 +92,66 @@
       </div>
     </nav>
 
-    <div class="container">
-      <h1><img src="images/about.png" width="53" height="58" alt=""/>&nbsp; ABOUT <strong>SOULVEST</strong></h1><br/>
-      <div class="col-lg-8 animated fadeIn">
-        <h3>HELPING YOU INVEST IN PASSIONATE IDEAS</h3>
-        <p>SoulVest is an online investment platform that provides the general public an opportunity to put their money to work in a meaningful way.  We go beyond the basic ESG screens used in overly diversified mutual funds and create focused portfolios that are specifically designed and managed by our in-house team of investment experts. Companies in our portfolios are required to be “best in class”, creating the most positive impact within areas such as climate change, diversity, human rights, and animal welfare, while also minimizing companies profiting from tobacco, weapons, or gambling.<br/><br/>
-          Our goal is empower people to invest for good. We believe that there is a shift in investment philosophy, and that investing in a socially responsible way is the wave of the future. We want to effect change by providing a vehicle that is accessible to everyone which pools money from the masses to create positive shifts in the free market economy.
-        </p><br/>
-      </div>
+    <!--
+<div class="container col-lg-1 pull-left" style="z-index:10000;" data-spy="affix" data-offset-top="60" data-offset-bottom="200">
+<ul class="navDots">
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ul>
+</div>-->
 
-      <div class="col-lg-3 col-lg-offset-1  animated fadeInRight">
-        <h3><img src="images/contact.png" width="57" height="36" alt=""/> &nbsp; CONTACT US</h3><br/>
-        <button onclick="window.location.href='mailto:contact@soulvest.net'" type="button" class="btn btn-default buttonLg">EMAIL SOULVEST</button><br/>
-      </div>
-    </div>
+    <div id="section1">
+      <div class="container">
+        <div class="jumbotron col-lg-8 col-lg-offset-2 col-sm-12 text-center">
+          <h1 class="animated fadeInDown">Sign up for SOUL<strong>VEST</strong></h1><br/>
+          <!-- **** sign up form **** --->
+          {% for field, errors in form.errors.iteritems() %}
+          <div class="alert alert-error">
+              {{ form[field].label }}: {{ ', '.join(errors) }}
+          </div>
+          {% endfor %}
+          <!-- **** sign up form **** --->
+          <form id="sign-up-form" name="sign-up-form" class="text-left" action="{{ url_for('signup') }}" method="post">
+            <div class="form-group">
+              <div class="col-sm-12">
+                <input id="sign-up-email" name="sign_up_email" type="email" class="form-control" placeholder="Your email address" required>
+                <br />
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-12">
+                <input id="sign-up-password" name="sign_up_password" type="password" class="form-control" placeholder="Create a password" required>
+                <br />
+              </div>
+            </div>
 
+            <div class="form-group text-center">
+              <div class="col-sm-0">
+                <button class="btn btn-default buttonInside animated fadeInUp" type="submit" role="button">Sign up for Soulvest</button>
+              </div>
+            </div>
+            {{ form.csrf_token }}
+          </form>
+
+          <p class="animated fadeInUp">
+            <a onclick="$('#sign-in-modal').modal('show');" style="color:white; font-size:0.6em; cursor:pointer;" >Already have an account? Sign In</a>
+          </p>
+
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class=flashes>
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+          {% endwith %}
+        </div>
+      </div>
     <div class="footer">
       <div class="container">
         <p id="footerFont">COPYRIGHT © 2015 SOULVEST INC.</p>
