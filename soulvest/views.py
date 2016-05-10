@@ -13,6 +13,8 @@ import logging
 #########################
 @app.route('/', methods=["GET", "POST"])
 def index():
+  if flask_login.current_user.is_authenticated:
+    return redirect(url_for('dashboard'))
   form = SignInForm()
   if request.method == 'POST':
     if form.validate_on_submit():
@@ -20,7 +22,7 @@ def index():
       if user:
         user.id = user.email
         flask_login.login_user(user)
-        return redirect(url_for('account'))
+        return redirect(url_for('dashboard'))
       else:
         return redirect(url_for('login'))
     else:
@@ -32,14 +34,14 @@ def index():
 #########################
 @app.route('/login', methods=["GET", "POST"])
 def login():
-    form = SignInForm()
-    if form.validate_on_submit():
-      user = get_user_by_email_and_password(form.sign_in_email.data, form.sign_in_password.data)
-      if user:
-        user.id = user.email
-        flask_login.login_user(user)
-        return redirect(url_for('account'))
-    return render_template('login.html', form=form)
+  form = SignInForm()
+  if form.validate_on_submit():
+    user = get_user_by_email_and_password(form.sign_in_email.data, form.sign_in_password.data)
+    if user:
+      user.id = user.email
+      flask_login.login_user(user)
+      return redirect(url_for('dashboard'))
+  return render_template('login.html', form=form)
 
 #########################
 # logout
@@ -47,7 +49,8 @@ def login():
 @app.route('/logout')
 def logout():
   flask_login.logout_user()
-  return render_template('logout.html')
+  form = SignInForm()
+  return redirect(url_for('index'))
 
 #########################
 # signup
@@ -81,7 +84,17 @@ def forgot_password():
 @app.route('/account')
 @flask_login.login_required
 def account():
+  # return 'Logged in as: ' + flask_login.current_user.email
   return render_template('account.html')
+
+#########################
+# dashboard
+#########################
+@app.route('/dashboard')
+@flask_login.login_required
+def dashboard():
+  # return 'Logged in as: ' + flask_login.current_user.email
+  return render_template('dashboard.html')
 
 #########################
 # signup thank you

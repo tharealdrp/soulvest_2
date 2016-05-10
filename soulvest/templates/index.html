@@ -54,7 +54,7 @@
     <script src="js/soulvest-client.js"></script>
 
   </head>
-  <body onload="setup();">
+  <body>
     <nav class="navbar navbar-default" id="soulnav">
       <div class="container">
         <div class="navbar-header">
@@ -71,14 +71,17 @@
 
         <div class="collapse navbar-collapse animated fadeIn" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
-            <li id="welcome-menu-button"><a href="account.html">Welcome</a></li>
-            <li><a href="portfolios.html">PORTFOLIOS</a></li>
-            <li><a href="faq.html">FAQ</a></li>
-            <li><a href="about.html">ABOUT</a></li>
-            <li id="sign-up-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="window.location='signup.html'">SIGN UP</button></li>
-            <li id="sign-in-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="window.location='login'">SIGN IN</button></li>
-            <li id="sign-out-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="onSignOutClick();">SIGN OUT</button></li>
-            <li><button  type="button" class="btn btn-primary btn-lg button1 buttonNavMargin" onclick="loadDemo()">TOUR THE APP</button>&nbsp;</li>
+            {% if current_user.is_authenticated %}
+              <li id="welcome-menu-button"><a href="account.html">{{ current_user.email }}</a></li>
+              <li id="sign-out-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="window.location='signout.html'">SIGN OUT</button></li>
+            {% else %}
+              <li><a href="portfolios.html">PORTFOLIOS</a></li>
+              <li><a href="faq.html">FAQ</a></li>
+              <li><a href="about.html">ABOUT</a></li>
+              <li id="sign-up-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="window.location='signup'">SIGN UP</button></li>
+              <li id="sign-in-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="window.location='login'">SIGN IN</button></li>
+              <li><button  type="button" class="btn btn-primary btn-lg button1 buttonNavMargin" onclick="loadDemo()">TOUR THE APP</button>&nbsp;</li>
+            {% endif %}
             <li><a href="/" class="homeIcon"><img src="images/home.png"  width="24px"/></a></li>
           </ul>
         </div>

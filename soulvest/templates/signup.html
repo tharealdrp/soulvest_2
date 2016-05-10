@@ -71,11 +71,11 @@
 
         <div class="collapse navbar-collapse animated fadeIn" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
-            <li id="welcome-menu-button"><a href="account.html">Welcome</a></li>
+            <li><a href="portfolios.html">PORTFOLIOS</a></li>
             <li><a href="faq.html">FAQ</a></li>
             <li><a href="about.html">ABOUT</a></li>
-            <li id="sign-up-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="window.location='login.html'">SIGN IN</button></li>
-            <li id="sign-out-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="onSignOutClick();">SIGN OUT</button></li>
+            <li id="sign-in-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="window.location='login'">SIGN IN</button></li>
+            <li><button  type="button" class="btn btn-primary btn-lg button1 buttonNavMargin" onclick="loadDemo()">TOUR THE APP</button>&nbsp;</li>
             <li><a href="/" class="homeIcon"><img src="images/home.png"  width="24px"/></a></li>
           </ul>
         </div>
@@ -108,10 +108,10 @@
       <div class="container">
         <div class="jumbotron col-lg-8 col-lg-offset-2 col-sm-12 text-center">
           <h1 class="animated fadeInDown">Sign up for SOUL<strong>VEST</strong></h1><br/>
-          <!-- **** sign up form **** --->
+          <!-- **** sign in form **** --->
           {% for field, errors in form.errors.iteritems() %}
           <div class="alert alert-error">
-              {{ form[field].label }}: {{ ', '.join(errors) }}
+            {{ form[field].label }}: {{ ', '.join(errors) }}
           </div>
           {% endfor %}
           <!-- **** sign up form **** --->
@@ -137,19 +137,11 @@
             {{ form.csrf_token }}
           </form>
 
+          <!-- **** --->
           <p class="animated fadeInUp">
-            <a onclick="$('#sign-in-modal').modal('show');" style="color:white; font-size:0.6em; cursor:pointer;" >Already have an account? Sign In</a>
+            <a href="login" style="color:white; font-size:0.8em; cursor:pointer;" >Already have an account? Sign In</a>
           </p>
 
-          {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            <ul class=flashes>
-            {% for message in messages %}
-              <li>{{ message }}</li>
-            {% endfor %}
-            </ul>
-          {% endif %}
-          {% endwith %}
         </div>
       </div>
     <div class="footer">

@@ -9,6 +9,8 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.js"></script>
 
+    <script src = "js/jquery.validate.min.js"></script>
+
     <!-- Toastr -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
@@ -24,20 +26,14 @@
 
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-    <link type="text/css" rel="stylesheet" href="css/inside.css" />
+    <link type="text/css" rel="stylesheet" href="css/home.css" />
+
 
     <!-- JQUERY FANCYBOX -->
     <script type="text/javascript" src="fancybox/fancybox.js"></script>
     <link type="text/css" rel="stylesheet" href="fancybox/fancybox.css" media="screen" />
     <script type="text/javascript">
-
       $(document).ready(function() {
-
-        token = localStorage.getItem("token");
-        console.log("******")
-        console.log(token)
-
-        getAccountInfo();
 
         $(".fancybox").fancybox({
           'transitionIn'	:	'fade',
@@ -58,8 +54,7 @@
     <script src="js/soulvest-client.js"></script>
 
   </head>
-
-  <body id="insidebackground2" class="insidebody" onload="setup();">
+  <body>
     <nav class="navbar navbar-default" id="soulnav">
       <div class="container">
         <div class="navbar-header">
@@ -76,14 +71,9 @@
 
         <div class="collapse navbar-collapse animated fadeIn" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
-            <li id="welcome-menu-button"><a href="account.html">Welcome</a></li>
-            <li><a href="portfolios.html">PORTFOLIOS</a></li>
-            <li><a href="faq.html">FAQ</a></li>
-            <li><a href="about.html">ABOUT</a></li>
-            <li id="sign-up-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="window.location='signup.html'">SIGN UP</button></li>
-            <li id="sign-out-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="onSignOutClick();">SIGN OUT</button></li>
-            <li><button  type="button" class="btn btn-primary btn-lg button1 buttonNavMargin" onclick="loadDemo()">TOUR THE APP</button>&nbsp;</li>
-            <li><a href="/" class="homeIcon"><img src="images/home.png"  width="24px"/></a></li>
+          <li id="account-button"><a href="account">{{ current_user.email }}</a></li>
+          <li id="dashboard-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin" onclick="window.location='dashboard'">DASHBOARD</button></li>
+          <li id="sign-out-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin" onclick="window.location='logout'">SIGN OUT</button></li>
           </ul>
         </div>
 
@@ -99,44 +89,27 @@
       </div>
     </nav>
 
-    <div class="container animated fadeIn">
-      <h1><img src="images/portfolio.png" width="71" height="58" alt=""/>&nbsp; MY ACCOUNT</h1><br/>
-      <div class="col-lg-8">
+    <!--
+<div class="container col-lg-1 pull-left" style="z-index:10000;" data-spy="affix" data-offset-top="60" data-offset-bottom="200">
+<ul class="navDots">
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ul>
+</div>-->
 
-        <button id="plaidLinkButton" class="btn btn-default buttonLg">CONNECT AN ACCOUNT</button>
-
-        <script src="https://cdn.plaid.com/link/stable/link-initialize.js"></script>
-        <script>
-          var sandboxHandler = Plaid.create({
-            env: 'tartan',
-            clientName: 'Client Name',
-            key: 'test_key',
-            product: 'auth',
-            onSuccess: function(public_token, metadata) {
-              console.log(public_token, metadata);
-              localStorage.setItem("plaid_public_token", public_token);
-              localStorage.setItem("plaid_metadata", JSON.stringify(metadata));
-              //showSelectAccountPanel();
-              linkAccountWithSoulvest(public_token, JSON.stringify(metadata));
-              window.location.href = '/account.html';
-            },
-          });
-
-          document.getElementById('plaidLinkButton').onclick = function() {
-            // Trigger the "Institution Select" view
-            sandboxHandler.open();
-          };
-        </script>
-        <p style="margin-left:15px;"><br><strong>NOTE:</strong> For this you will need your credentials for your online banking account.<br></p>
-        <br>
-        <div class="faqBorder">
-          <h4>YOUR ACCOUNT INFO</h4>
-          <div id="account-info"></div>
+    <div id="section1">
+      <div class="container">
+        <div class="jumbotron col-lg-8 col-lg-offset-2 col-sm-12 text-center">
+          <h1 class="animated fadeInDown">Welcome to your dashboard. Let's get started!</h1><br/>
         </div>
       </div>
     <div class="footer">
       <div class="container">
-        <p id="footerFont">COPYRIGHT © 2016 SOULVEST INC.</p>
+        <p id="footerFont">COPYRIGHT © 2015 SOULVEST INC.</p>
       </div>
     </div>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
