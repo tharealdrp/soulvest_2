@@ -107,6 +107,10 @@
     <div id="section1">
       <div class="container">
         <div class="jumbotron col-lg-8 col-lg-offset-2 col-sm-12 text-center">
+          {% if signup_complete %}
+          <h1 class="animated fadeInDown">Thanks for signing up for SOUL<strong>VEST</strong></h1><br/>
+          <h2 class="animated fadeInDown">Please check your email for an account verification link.</h2><br/>
+          {% else %}
           <h1 class="animated fadeInDown">Sign up for SOUL<strong>VEST</strong></h1><br/>
           <!-- **** sign in form **** --->
           {% for field, errors in form.errors.iteritems() %}
@@ -141,6 +145,7 @@
           <p class="animated fadeInUp">
             <a href="login" style="color:white; font-size:0.8em; cursor:pointer;" >Already have an account? Sign In</a>
           </p>
+          {% endif %}
 
         </div>
       </div>

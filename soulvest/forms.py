@@ -12,6 +12,7 @@ class UniqueEmail(object):
     if user:
       raise ValidationError('Sorry, that email is already taken.')
 
+
 class ValidLogin(object):
   def __call__(self, form, field):
     user = get_user_by_email_and_password(
@@ -19,6 +20,13 @@ class ValidLogin(object):
     if not user:
       raise ValidationError(
         "Sorry, we couldn't find a user with that email and password.")
+
+
+class UserEmailExists(object):
+  def __call__(self, form, field):
+    user = User.query(User.email == field.data).get()
+    if not user:
+      raise ValidationError("We couldn't find a user with that email address.")
 
 
 class SignInForm(Form):
@@ -43,5 +51,9 @@ class SignUpForm(Form):
 
 
 class ForgotPasswordForm(Form):
-  sign_in_email = StringField('Email', validators=[DataRequired(), Email()])
+  email = StringField('Email', validators=[DataRequired(), Email(), UserEmailExists()])
+
+
+class ActivateRenewForm(Form):
+  email = StringField('Email', validators=[DataRequired(), Email(), UserEmailExists()])
 

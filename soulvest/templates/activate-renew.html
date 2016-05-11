@@ -54,7 +54,7 @@
     <script src="js/soulvest-client.js"></script>
 
   </head>
-  <body onload="setup();">
+  <body>
     <nav class="navbar navbar-default" id="soulnav">
       <div class="container">
         <div class="navbar-header">
@@ -71,10 +71,12 @@
 
         <div class="collapse navbar-collapse animated fadeIn" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
-            <li id="welcome-menu-button"><a href="account.html">Welcome</a></li>
+            <li><a href="portfolios.html">PORTFOLIOS</a></li>
             <li><a href="faq.html">FAQ</a></li>
             <li><a href="about.html">ABOUT</a></li>
+            <li id="sign-up-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="window.location='signup'">SIGN UP</button></li>
             <li id="sign-in-menu-button"><button type="button" class="btn btn-primary btn-lg button1 buttonNavMargin"  onclick="window.location='login'">SIGN IN</button></li>
+            <li><button  type="button" class="btn btn-primary btn-lg button1 buttonNavMargin" onclick="loadDemo()">TOUR THE APP</button>&nbsp;</li>
             <li><a href="/" class="homeIcon"><img src="images/home.png"  width="24px"/></a></li>
           </ul>
         </div>
@@ -106,18 +108,18 @@
     <div id="section1">
       <div class="container">
         <div class="jumbotron col-lg-8 col-lg-offset-2 col-sm-12 text-center">
-          {% if link_sent %}
-          <h2 class="animated fadeInDown">Please check your email for a password reset link.</h2><br/>
+          {% if already_activated %}
+          <h2 class="animated fadeInDown">It looks like your account has already been activated.</h2><br/>
+          <button class="btn btn-default buttonInside" type="button" onclick="window.location='login'">Sign into SOUL<strong>VEST</strong></button>
           {% else %}
-          <h1 class="animated fadeInDown">Reset your password</h1><br/>
+          <h2 class="animated fadeInDown">Your activation link has expired. Enter your email and we'll send you a new one.</h2><br/>
           <!-- **** sign in form **** --->
-          <p class="animated fadeInDown">Enter your email address and we'll send you a link to reset your password.</p>
           {% for field, errors in form.errors.iteritems() %}
           <div class="alert alert-error">
             {{ form[field].label }}: {{ ', '.join(errors) }}
           </div>
           {% endfor %}
-          <form id="sign-in-form" name="sign-in-form" class="text-left" action="{{ url_for('forgot_password') }}" method="post">
+          <form id="sign-in-form" name="sign-in-form" class="text-left" action="{{ url_for('activate_renew') }}" method="post">
             <div class="form-group">
               <div class="col-sm-12">
                 <input id="email" name="email" type="email" class="form-control" placeholder="Email Address" required>
@@ -126,12 +128,11 @@
             </div>
             <div class="form-group text-center">
               <div class="col-sm-0">
-                <button class="btn btn-default buttonInside" type="submit">Send password reset link</button>
+                <button class="btn btn-default buttonInside" type="submit">Get a new activation link</button>
               </div>
             </div>
             {{ form.csrf_token }}
           </form>
-          <!-- **** --->
           {% endif %}
         </div>
       </div>
